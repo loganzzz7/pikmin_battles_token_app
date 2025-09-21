@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Participants • Pikmin Battles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: "#0b0b0f",
+                        card: "#11121a",
+                        redN: "#ff3860",
+                        purpleN: "#b76cff",
+                        blueN: "#3ec4ff",
+                        yellowN: "#ffe259"
+                    },
+                    boxShadow: {
+                        card: "0 10px 30px rgba(0,0,0,0.35)"
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="icon" href="data:," />
+</head>
+
+<body class="h-full bg-bg text-slate-200">
+    <!-- header -->
+    <header class="sticky top-0 z-10 border-b-2 border-teal-300 bg-bg/80 backdrop-blur">
+        <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <h1 class="text-xl md:text-2xl font-semibold text-green-300">View Participants</h1>
+            </div>
+            <div class="flex items-center gap-6 text-sm">
+                <a href="index.html"
+                    class="rounded-lg bg-indigo-600 hover:text-red-500 duration-500 py-2 px-4 text-sm font-semibold border-2 border-teal-300 hover:border-red-500">Back
+                    to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <section class="mx-auto max-w-7xl p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-card rounded-xl p-4 shadow-card border-2 border-green-300">
+            <div class="text-sm text-slate-400">Total participants in game</div>
+            <div id="totalParticipants" class="mt-1 text-xl font-semibold">-</div>
+        </div>
+        <div class="bg-card rounded-xl p-4 shadow-card break-all border-2 border-green-300">
+            <div class="text-sm text-slate-400">Token address</div>
+            <div id="tokenAddress" class="mt-1 text-xl font-semibold">-</div>
+        </div>
+        <div class="bg-card rounded-xl p-4 shadow-card border-2 border-green-300">
+            <div class="text-sm text-slate-400">Last updated</div>
+            <div id="lastUpdated" class="mt-1 text-xl font-semibold">-</div>
+        </div>
+    </section>
+
+    <!-- search -->
+    <section class="mx-auto max-w-7xl px-4">
+        <div class="bg-card rounded-xl p-4 shadow-card border-2 border-teal-300">
+            <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                <input id="searchInput" type="text" placeholder="Search by wallet address..."
+                    class="flex-1 rounded-lg bg-black/30 border-2 border-lime-700 px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500" />
+                <button id="searchBtn"
+                    class="rounded-lg bg-lime-700 hover:text-red-500 duration-500 px-4 py-2 text-sm font-semibold border-2 border-yellow-300 hover:border-red-500">
+                    Search
+                </button>
+            </div>
+
+            <div id="searchResults"
+                class="mt-4 h-96 overflow-y-auto divide-y divide-white/5 bg-gray-800 rounded border-2 border-emerald-700">
+                <!-- filled by JS: rows "address -> team" pairings -->
+            </div>
+        </div>
+    </section>
+
+    <script src="./app.js" defer></script>
+</body>
+
+</html>
