@@ -45,8 +45,8 @@
                     </a>
                 </div>
             </div>
-            <div id="coinca" class="text-xl md:text-2xl font-semibold text-yellow-400">
-                CA: <span>placeholder</span>
+            <div class="text-xl md:text-2xl font-semibold text-yellow-400">
+                CA: <span id="coinca">placeholder</span>
             </div>
             <div id="prizePool" class="text-xl md:text-2xl font-semibold text-teal-300">
                 Prize Pool: <span class="font-semibold">0.0000 SOL</span>
@@ -100,7 +100,7 @@
             <div class="bg-card rounded-xl p-4 shadow-card border-teal-300 border-2">
                 <div class="flex items-center justify-between mb-3 border-teal-300 border-b">
                     <h3 class="font-semibold mb-2">Participants</h3>
-                    <span id="holderCount" class="text-xs text-slate-400">0</span>
+                    <span id="holdersCount" class="text-xs text-slate-400">0</span>
                 </div>
 
                 <div id="holdersList" class="h-64 overflow-y-auto space-y-2 pr-1">
@@ -126,6 +126,7 @@
             </div>
         </aside>
     </main>
+    <script>window.BACKEND_URL='http://127.0.0.1:8787'</script>
     <script src="./app.js" defer></script>
 </body>
 

@@ -1,0 +1,23 @@
+{
+  "state": {
+    "roundNumber": 42,
+    "phase": "BREAK",
+    "breakEndsAt": "2030-01-01T00:00:30Z",
+    "prizePoolLamports": 250000000,
+    "survivorCount": 123
+  },
+  "holders": {
+    "total": 4,
+    "tokenAddress": "So11111111111111111111111111111111111111112",
+    "lastUpdatedISO": "2030-01-01T00:00:00Z",
+    "items": [
+      { "address": "HldrA...", "team": "red" },
+      { "address": "HldrB...", "team": "purple" },
+      { "address": "HldrC...", "team": "blue" },
+      { "address": "HldrD...", "team": "yellow" }
+    ]
+  },
+  "history": [
+    { "round": 41, "team": "blue", "prizeLamports": 500000000 }
+  ]
+}
