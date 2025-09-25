@@ -104,7 +104,9 @@ async function renderHome() {
       battleCountdownEl.textContent = "LIVE";
       battleCountdownEl.classList.add("text-green-400");
     } else {
-      const secs = secondsUntil(state?.breakEndsAt);
+      const secs = typeof state?.secondsLeft === "number"
+        ? state.secondsLeft
+        : secondsUntil(state?.breakEndsAt);
       battleCountdownEl.textContent = `${secs}s`;
       battleCountdownEl.classList.remove("text-green-400");
     }
