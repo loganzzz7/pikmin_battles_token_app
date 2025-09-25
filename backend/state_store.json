@@ -4,7 +4,6 @@
     "phase": "RUNNING",
     "breakEndsAt": null,
     "prizePoolLamports": 250000000,
-    "survivorCount": 4,
     "eliminatedTeams": [
       "purple",
       "yellow",
