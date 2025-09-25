@@ -1,23 +1,229 @@
 {
   "state": {
-    "roundNumber": 42,
-    "phase": "BREAK",
-    "breakEndsAt": "2030-01-01T00:00:30Z",
+    "roundNumber": 81,
+    "phase": "RUNNING",
+    "breakEndsAt": null,
     "prizePoolLamports": 250000000,
-    "survivorCount": 123
+    "survivorCount": 4
   },
   "holders": {
     "total": 4,
     "tokenAddress": "So11111111111111111111111111111111111111112",
-    "lastUpdatedISO": "2030-01-01T00:00:00Z",
+    "lastUpdatedISO": "2025-09-25T00:22:13.039895+00:00",
     "items": [
-      { "address": "HldrA...", "team": "red" },
-      { "address": "HldrB...", "team": "purple" },
-      { "address": "HldrC...", "team": "blue" },
-      { "address": "HldrD...", "team": "yellow" }
+      {
+        "address": "HldrA...",
+        "team": "red"
+      },
+      {
+        "address": "HldrC...",
+        "team": "purple"
+      },
+      {
+        "address": "HldrB...",
+        "team": "blue"
+      },
+      {
+        "address": "HldrD...",
+        "team": "yellow"
+      }
     ]
   },
   "history": [
-    { "round": 41, "team": "blue", "prizeLamports": 500000000 }
+    {
+      "round": 80,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 79,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 78,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 77,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 76,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 75,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 74,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 73,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 72,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 71,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 70,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 69,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 68,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 67,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 66,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 65,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 64,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 63,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 62,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 61,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 60,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 59,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 58,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 57,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 56,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 55,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 54,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 53,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 52,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 51,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 50,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 49,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 48,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 47,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 46,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 45,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 44,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 43,
+      "team": "blue",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 41,
+      "team": "blue",
+      "prizeLamports": 500000000
+    }
   ]
 }

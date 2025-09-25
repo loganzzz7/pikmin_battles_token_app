@@ -91,16 +91,8 @@ async function renderHome() {
 
   // Countdown
   if (battleCountdownEl) {
-    const tick = () => {
-      const secs = secondsUntil(state?.breakEndsAt);
-      battleCountdownEl.textContent = `${secs}s`;
-    };
-    tick();
-    const id = setInterval(() => {
-      const secs = secondsUntil(state?.breakEndsAt);
-      battleCountdownEl.textContent = `${secs}s`;
-      if (secs === 0) clearInterval(id);
-    }, 1000);
+    const secs = secondsUntil(state?.breakEndsAt);
+    battleCountdownEl.textContent = `${secs}s`;
   }
 
   // Survivors (fallback to total holders)
@@ -163,6 +155,22 @@ async function renderHome() {
   }
 }
 renderHome();
+setInterval(renderHome, 1000);
+
+async function syncSimWithState() {
+  const state = await loadState();
+  const phase = state?.phase;
+
+  if (phase === "RUNNING") {
+    if (!ArenaSim.isActive()) ArenaSim.start();
+  } else {
+    if (ArenaSim.isActive()) ArenaSim.stop();
+  }
+}
+
+// kick off and poll every second
+syncSimWithState();
+setInterval(syncSimWithState, 1000);
 
 // ========== HOLDERS PAGE ==========
 async function renderHoldersPage() {
@@ -211,3 +219,362 @@ async function renderHoldersPage() {
   searchInput?.addEventListener("keydown", (e) => e.key === "Enter" && doSearch());
 }
 renderHoldersPage();
+
+// --- HP overlay renderer (unchanged) ---
+function renderHpOverlay() {
+  const rows = ArenaSim.snapshot();
+  const map = new Map(rows.map(r => [r.team, r.hp]));
+  const r = document.getElementById("hpRed");
+  const p = document.getElementById("hpPurple");
+  const b = document.getElementById("hpBlue");
+  const y = document.getElementById("hpYellow");
+  if (r) r.textContent = map.get("red") ?? "-";
+  if (p) p.textContent = map.get("purple") ?? "-";
+  if (b) b.textContent = map.get("blue") ?? "-";
+  if (y) y.textContent = map.get("yellow") ?? "-";
+}
+
+// ======== CANVAS SIM (HP + SPAWNING ITEMS + ELIMINATION) ========
+const TEAM_PALETTE = { red: "#ff3860", purple: "#b76cff", blue: "#3ec4ff", yellow: "#ffe259" };
+
+// --- HP / scaling tuning ---
+const MAX_HP = 5;
+const SPEED_DELTA = 0.10;  // +10% speed per HP lost
+const MASS_DELTA = 0.10;  // -10% mass per HP lost
+const SIZE_DELTA = 0.10;  // -10% radius per HP lost
+const MIN_MASS_FACTOR = 0.25;
+const MIN_SIZE_FACTOR = 0.60;
+
+// --- Item tuning ---
+const ITEM_SPAWN_MS = 3000;   // try to spawn every ~3s
+const ITEM_LIFETIME = 8000;   // despawn after 8s
+const ITEM_RAD_BULBORB_FACTOR = 0.75;  // relative to circle baseR
+const ITEM_RAD_FLOWER_FACTOR = 0.60;
+
+// Preload images (adjust paths if needed)
+const IMG_BULBORB = new Image();
+IMG_BULBORB.src = "./assets/bulborb.png"; // -1 HP
+const IMG_FLOWER = new Image();
+IMG_FLOWER.src = "./assets/flower.png";  // +1 HP
+
+function hpSpeedMult(hp) { return 1 + SPEED_DELTA * (MAX_HP - hp); }
+function hpMass(baseMass, hp) { return baseMass * Math.max(MIN_MASS_FACTOR, 1 - MASS_DELTA * (MAX_HP - hp)); }
+function hpRadius(baseR, hp) { return baseR * Math.max(MIN_SIZE_FACTOR, 1 - SIZE_DELTA * (MAX_HP - hp)); }
+
+const ArenaSim = (() => {
+  let ctx, canvas, wrap;
+  let rafId = null;
+  let active = false;
+
+  let circles = [];
+  let items = [];                // { kind:'bulborb'|'flower', x,y, r, born:number }
+  let last = 0;
+  let acc = 0;
+  let spawnAcc = 0;              // ms accumulator for spawns
+  let baseRForItems = 20;        // updated at start/resize
+
+  const dt = 1 / 60;
+  const dtMs = dt * 1000;
+
+  let tickCb = null;
+
+  function ensureCanvas() {
+    if (canvas) return true;
+    wrap = document.getElementById("arenaWrap");
+    canvas = document.getElementById("arena");
+    if (!wrap || !canvas) return false;
+    resize();
+    ctx = canvas.getContext("2d");
+    window.addEventListener("resize", onResize);
+    return true;
+  }
+  function resize() {
+    canvas.width = wrap.clientWidth;
+    canvas.height = wrap.clientHeight;
+  }
+  function onResize() {
+    if (!canvas) return;
+    const W1 = canvas.width, H1 = canvas.height;
+    resize();
+    const W2 = canvas.width, H2 = canvas.height;
+    if (W1 && H1 && (W1 !== W2 || H1 !== H2)) {
+      const sx = W2 / W1, sy = H2 / H1;
+      for (const c of circles) {
+        c.x *= sx; c.y *= sy;
+        c.baseR = Math.max(12, Math.floor(Math.min(W2, H2) * 0.065));
+        applyHPScaling(c);
+      }
+      baseRForItems = Math.max(12, Math.floor(Math.min(W2, H2) * 0.065));
+      for (const it of items) it.r = itemRadiusForKind(it.kind);
+    }
+  }
+
+  // init from corners
+  function makeInitialCircles(W, H) {
+    const baseR = Math.max(12, Math.floor(Math.min(W, H) * 0.065));
+    baseRForItems = baseR;
+    const pad = baseR + 12;
+    const cx = W / 2, cy = H / 2;
+    const starts = [
+      { id: "blue", team: "blue", x: pad, y: pad },
+      { id: "yellow", team: "yellow", x: W - pad, y: pad },
+      { id: "purple", team: "purple", x: pad, y: H - pad },
+      { id: "red", team: "red", x: W - pad, y: H - pad },
+    ];
+
+    // --- Speed tuning (new) ---
+    const BASE_SPEED_FACTOR = 0.36;
+    const MIN_BASE_SPEED = 220;
+    const baseSpeed = Math.max(MIN_BASE_SPEED, Math.min(W, H) * BASE_SPEED_FACTOR); // px/s
+    const baseMass = 1;
+
+    circles = starts.map(s => {
+      const dx = cx - s.x, dy = cy - s.y;
+      const len = Math.hypot(dx, dy) || 1;
+      return {
+        id: s.id, team: s.team,
+        x: s.x, y: s.y,
+        dirx: dx / len, diry: dy / len, // direction; speed derived from HP
+        baseSpeed, speed: baseSpeed,
+        baseMass, mass: baseMass,
+        baseR, r: baseR,
+        hp: MAX_HP,
+      };
+    });
+    for (const c of circles) applyHPScaling(c);
+  }
+
+  function applyHPScaling(c) {
+    c.speed = c.baseSpeed * hpSpeedMult(c.hp);
+    c.vx = c.dirx * c.speed;
+    c.vy = c.diry * c.speed;
+    c.mass = hpMass(c.baseMass, c.hp);
+    c.r = hpRadius(c.baseR, c.hp);
+  }
+
+  // public HP update (with elimination)
+  function updateHP(idOrTeam, newHp) {
+    const c = circles.find(z => z.id === idOrTeam || z.team === idOrTeam);
+    if (!c) return;
+    c.hp = Math.max(0, Math.min(MAX_HP, newHp));
+    if (c.hp === 0) {
+      // Don't rescale; mark eliminated and purge after pickups
+      c._eliminate = true;
+      return;
+    }
+    applyHPScaling(c);
+  }
+
+  // remove any circles flagged/eliminated (hp <= 0)
+  function pruneEliminated() {
+    if (!circles.length) return;
+    circles = circles.filter(c => !c._eliminate && c.hp > 0);
+  }
+
+  // -------- items ----------
+  const PROB_BULBORB = 0.75;
+
+  function itemRadiusForKind(kind) {
+    return (kind === "bulborb" ? ITEM_RAD_BULBORB_FACTOR : ITEM_RAD_FLOWER_FACTOR) * baseRForItems;
+  }
+  function randomItemKind() {
+    return Math.random() < PROB_BULBORB ? "bulborb" : "flower";
+  }
+  function spawnRandomItem() {
+    const W = canvas.width, H = canvas.height;
+    const kind = randomItemKind();
+    const r = itemRadiusForKind(kind);
+    const x = r + Math.random() * (W - 2 * r);
+    const y = r + Math.random() * (H - 2 * r);
+    items.push({ kind, x, y, r, born: performance.now() });
+  }
+  function updateItems(stepMs) {
+    // spawn
+    spawnAcc += stepMs;
+    while (spawnAcc >= ITEM_SPAWN_MS) {
+      spawnRandomItem();
+      spawnAcc -= ITEM_SPAWN_MS;
+    }
+    // lifetime + pickup
+    const now = performance.now();
+    let i = 0;
+    while (i < items.length) {
+      const it = items[i];
+      if (now - it.born > ITEM_LIFETIME) { items.splice(i, 1); continue; }
+      let consumed = false;
+      // NOTE: iterate over a copy to avoid issues if elimination modifies 'circles'
+      for (const c of [...circles]) {
+        const dx = c.x - it.x, dy = c.y - it.y;
+        if (Math.hypot(dx, dy) <= c.r + it.r) {
+          // 1) capture direction before HP change
+          const speedNow = Math.hypot(c.vx, c.vy) || 1;
+          const ux = c.vx / speedNow;
+          const uy = c.vy / speedNow;
+
+          // 2) apply hp effect (no knockback)
+          const delta = it.kind === "flower" ? +1 : -1;
+          updateHP(c.id, c.hp + delta);
+
+          // 3) if not eliminated, restore direction with new speed
+          if (!c._eliminate && c.hp > 0) {
+            c.dirx = ux; c.diry = uy;
+            c.vx = ux * c.speed;
+            c.vy = uy * c.speed;
+            // 4) nudge forward to avoid immediate retrigger
+            const nudge = Math.max(1, it.r * 0.15);
+            c.x += ux * nudge; c.y += uy * nudge;
+          }
+
+          consumed = true;
+          break;
+        }
+      }
+      if (consumed) items.splice(i, 1); else i++;
+    }
+
+    // finally, remove eliminated circles
+    pruneEliminated();
+  }
+
+  function drawItems() {
+    for (const it of items) {
+      const img = it.kind === "bulborb" ? IMG_BULBORB : IMG_FLOWER;
+      const size = it.r * 2;
+      const x = it.x - it.r, y = it.y - it.r;
+      if (img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, x, y, size, size);
+      } else {
+        // fallback while loading
+        ctx.beginPath();
+        ctx.arc(it.x, it.y, it.r, 0, Math.PI * 2);
+        ctx.fillStyle = it.kind === "bulborb" ? "#ff9c54" : "#ffffff";
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = it.kind === "bulborb" ? "#dd6c1a" : "#d1d5db";
+        ctx.stroke();
+      }
+    }
+  }
+  // -------------------------
+
+  // physics
+  function collide(a, b) {
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    const overlap = a.r + b.r - dist;
+    if (overlap <= 0) return;
+
+    const nx = dx / dist, ny = dy / dist;
+    const shift = overlap / 2 + 0.01;
+    a.x -= nx * shift; a.y -= ny * shift;
+    b.x += nx * shift; b.y += ny * shift;
+
+    const tx = -ny, ty = nx;
+    const v1n = a.vx * nx + a.vy * ny;
+    const v1t = a.vx * tx + a.vy * ty;
+    const v2n = b.vx * nx + b.vy * ny;
+    const v2t = b.vx * tx + b.vy * ty;
+
+    const m1 = a.mass, m2 = b.mass;
+    const v1nPrime = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
+    const v2nPrime = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
+
+    a.vx = v1nPrime * nx + v1t * tx;
+    a.vy = v1nPrime * ny + v1t * ty;
+    b.vx = v2nPrime * nx + v2t * tx;
+    b.vy = v2nPrime * ny + v2t * ty;
+
+    const as = Math.hypot(a.vx, a.vy) || 1, bs = Math.hypot(b.vx, b.vy) || 1;
+    a.dirx = a.vx / as; a.diry = a.vy / as;
+    b.dirx = b.vx / bs; b.diry = b.vy / bs;
+    a.vx = a.dirx * a.speed; a.vy = a.diry * a.speed;
+    b.vx = b.dirx * b.speed; b.vy = b.diry * b.speed;
+  }
+  function wallBounce(c, W, H) {
+    if (c.x - c.r < 0) { c.x = c.r; c.vx = Math.abs(c.vx); }
+    if (c.x + c.r > W) { c.x = W - c.r; c.vx = -Math.abs(c.vx); }
+    if (c.y - c.r < 0) { c.y = c.r; c.vy = Math.abs(c.vy); }
+    if (c.y + c.r > H) { c.y = H - c.r; c.vy = -Math.abs(c.vy); }
+  }
+  function physicsStep(stepMs) {
+    const W = canvas.width, H = canvas.height;
+    for (const c of circles) {
+      c.x += c.vx * dt;
+      c.y += c.vy * dt;
+      wallBounce(c, W, H);
+    }
+    for (let i = 0; i < circles.length; i++)
+      for (let j = i + 1; j < circles.length; j++)
+        collide(circles[i], circles[j]);
+
+    updateItems(stepMs);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // draw items first (under the circles)
+    drawItems();
+    // then circles
+    for (const c of circles) {
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+      ctx.fillStyle = TEAM_PALETTE[c.team] || "#bbb";
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "#0b0b0f";
+      ctx.stroke();
+    }
+  }
+
+  function loop(now) {
+    if (!active) return;
+    let elapsed = now - last;
+    if (elapsed > 100) elapsed = 100;
+    last = now;
+
+    acc += elapsed;
+    while (acc >= dtMs) {
+      physicsStep(dtMs);
+      acc -= dtMs;
+    }
+
+    draw();
+    if (typeof tickCb === "function") tickCb();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function start() {
+    if (!ensureCanvas()) return;
+    if (active) return;
+    resize();
+    makeInitialCircles(canvas.width, canvas.height);
+    // reset items + timers
+    items.length = 0;
+    spawnAcc = 0;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    active = true;
+    last = performance.now();
+    acc = 0;
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function stop() {
+    if (!canvas || !ctx) return;
+    active = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    acc = 0;
+    items.length = 0;
+    spawnAcc = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function snapshot() { return circles.map(c => ({ team: c.team, hp: c.hp })); }
+  function onTick(cb) { tickCb = cb; }
+
+  return { start, stop, isActive: () => active, updateHP, snapshot, onTick };
+})();
+
+// Register overlay updater *after* ArenaSim exists
+ArenaSim.onTick(renderHpOverlay);

@@ -68,6 +68,16 @@
                     <span class="text-yellowN">Yellow Pikmin</span>,
                     <span class="text-purpleN">Purple Pikmin</span>.
                 </li>
+                <li>
+                    • The pikmins bounce around with physics. Items spawn randomly: 75% <img src="assets/bulborb.png"
+                        alt="bulborb" class="inline w-1/12"> and 25% <img src="assets/flower.png" alt="flower"
+                        class="inline w-1/12">.
+                </li>
+                <li>
+                    • When touching a <img src="assets/bulborb.png" alt="bulborb" class="inline w-1/12"> the pikmin
+                    loses one HP, when touching a <img src="assets/flower.png" alt="flower" class="inline w-1/12">
+                    recovers one HP.
+                </li>
                 <li>• Teams battle in the arena; last team standing wins the round.</li>
                 <li>• <span class="text-green-300">70%</span> of creator fees form the prize pool.</li>
                 <li>• The winning team splits the prize pool evenly among its members.</li>
@@ -82,14 +92,29 @@
                 <div>Survivors <span id="survivorCount" class="font-semibold">--</span></div>
             </div>
 
-            <!-- placeholder -->
             <div
                 class="relative aspect-square w-full overflow-hidden rounded-lg border-2 border-gray-700 bg-gradient-to-br from-slate-900 to-slate-800">
                 <div class="absolute inset-0 grid grid-cols-8 grid-rows-8 opacity-20">
                     <div class="border-2 border-gray-700" aria-hidden="true"></div>
                 </div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <p class="text-slate-400 text-sm">Canvas animation placeholder</p>
+                <!-- Arena -->
+                <div id="arenaWrap"
+                    class="relative aspect-square w-full overflow-hidden rounded-lg border-2 border-gray-700 bg-gradient-to-br from-slate-900 to-slate-800">
+
+                    <!-- HP overlay (above the canvas) -->
+                    <div id="hpOverlay"
+                        class="pointer-events-none absolute left-0 right-0 top-0 z-20 px-4 py-2 text-xs md:text-sm font-semibold flex justify-between">
+                        <span class="text-redN">Red: <span id="hpRed">5</span> <i class="bi bi-heart-fill"></i></span>
+                        <span class="text-purpleN">Purple: <span id="hpPurple">5</span> <i
+                                class="bi bi-heart-fill"></i></span>
+                        <span class="text-blueN">Blue: <span id="hpBlue">5</span> <i
+                                class="bi bi-heart-fill"></i></span>
+                        <span class="text-yellowN">Yellow: <span id="hpYellow">5</span> <i
+                                class="bi bi-heart-fill"></i></span>
+                    </div>
+
+                    <!-- The actual canvas sits underneath -->
+                    <canvas id="arena" class="absolute inset-0 z-10"></canvas>
                 </div>
             </div>
         </section>
@@ -126,7 +151,7 @@
             </div>
         </aside>
     </main>
-    <script>window.BACKEND_URL='http://127.0.0.1:8787'</script>
+    <script>window.BACKEND_URL = 'http://127.0.0.1:8787'</script>
     <script src="./app.js" defer></script>
 </body>
 
