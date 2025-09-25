@@ -15,6 +15,14 @@ const TEAM_COLORS = {
   yellow: "text-yellowN",
 };
 
+// add near your palettes
+const TEAM_BG = {
+  red: "#fecaca", // red-200
+  yellow: "#fef08a", // yellow-200
+  blue: "#bfdbfe", // blue-200
+  purple: "#e9d5ff"  // purple-200
+};
+
 // ========== HELPERS ==========
 const LAMPORTS_PER_SOL = 1_000_000_000n;
 
@@ -68,7 +76,7 @@ async function renderHome() {
 
   const gameNumberEl = document.getElementById("gameNumber");
   const battleCountdownEl = document.getElementById("battleCountdown");
-  const survivorCountEl = document.getElementById("survivorCount");
+  // const survivorCountEl = document.getElementById("survivorCount");
   const holdersListEl = document.getElementById("holdersList");
   const holdersCountEl = document.getElementById("holdersCount");
   const historyListEl = document.getElementById("historyList");
@@ -91,18 +99,25 @@ async function renderHome() {
 
   // Countdown
   if (battleCountdownEl) {
-    const secs = secondsUntil(state?.breakEndsAt);
-    battleCountdownEl.textContent = `${secs}s`;
+    const phase = state?.phase;
+    if (phase === "RUNNING") {
+      battleCountdownEl.textContent = "LIVE";
+      battleCountdownEl.classList.add("text-green-400");
+    } else {
+      const secs = secondsUntil(state?.breakEndsAt);
+      battleCountdownEl.textContent = `${secs}s`;
+      battleCountdownEl.classList.remove("text-green-400");
+    }
   }
 
   // Survivors (fallback to total holders)
-  if (survivorCountEl) {
-    const survivors =
-      typeof state?.survivorCount === "number"
-        ? state.survivorCount
-        : holders?.total ?? holders?.items?.length ?? 0;
-    survivorCountEl.textContent = String(survivors);
-  }
+  // if (survivorCountEl) {
+  //   const survivors =
+  //     typeof state?.survivorCount === "number"
+  //       ? state.survivorCount
+  //       : holders?.total ?? holders?.items?.length ?? 0;
+  //   survivorCountEl.textContent = String(survivors);
+  // }
 
   // Holders preview
   if (holdersListEl) {
@@ -246,8 +261,8 @@ const MIN_MASS_FACTOR = 0.25;
 const MIN_SIZE_FACTOR = 0.60;
 
 // --- Item tuning ---
-const ITEM_SPAWN_MS = 3000;   // try to spawn every ~3s
-const ITEM_LIFETIME = 8000;   // despawn after 8s
+const ITEM_SPAWN_MS = 3000;   // spawn every ~3s
+const ITEM_LIFETIME = null;   // despawn after 8s
 const ITEM_RAD_BULBORB_FACTOR = 0.75;  // relative to circle baseR
 const ITEM_RAD_FLOWER_FACTOR = 0.60;
 
@@ -256,6 +271,18 @@ const IMG_BULBORB = new Image();
 IMG_BULBORB.src = "./assets/bulborb.png"; // -1 HP
 const IMG_FLOWER = new Image();
 IMG_FLOWER.src = "./assets/flower.png";  // +1 HP
+
+// Team sprites
+const IMG_TEAM = {
+  red: new Image(),
+  yellow: new Image(),
+  blue: new Image(),
+  purple: new Image(),
+};
+IMG_TEAM.red.src = "./assets/red_pikmin.png";
+IMG_TEAM.yellow.src = "./assets/yellow_pikmin.png";
+IMG_TEAM.blue.src = "./assets/blue_pikmin.png";
+IMG_TEAM.purple.src = "./assets/purple_pikmin.png";
 
 function hpSpeedMult(hp) { return 1 + SPEED_DELTA * (MAX_HP - hp); }
 function hpMass(baseMass, hp) { return baseMass * Math.max(MIN_MASS_FACTOR, 1 - MASS_DELTA * (MAX_HP - hp)); }
@@ -277,6 +304,11 @@ const ArenaSim = (() => {
   const dtMs = dt * 1000;
 
   let tickCb = null;
+
+  let winnerCb = null;
+  let winnerSent = false;
+
+  function onWinner(cb) { winnerCb = cb; }
 
   function ensureCanvas() {
     if (canvas) return true;
@@ -322,9 +354,9 @@ const ArenaSim = (() => {
       { id: "red", team: "red", x: W - pad, y: H - pad },
     ];
 
-    // --- Speed tuning (new) ---
-    const BASE_SPEED_FACTOR = 0.36;
-    const MIN_BASE_SPEED = 220;
+    // --- Speed tuning ---
+    const BASE_SPEED_FACTOR = 0.4;
+    const MIN_BASE_SPEED = 250;
     const baseSpeed = Math.max(MIN_BASE_SPEED, Math.min(W, H) * BASE_SPEED_FACTOR); // px/s
     const baseMass = 1;
 
@@ -368,7 +400,16 @@ const ArenaSim = (() => {
   // remove any circles flagged/eliminated (hp <= 0)
   function pruneEliminated() {
     if (!circles.length) return;
+    const before = circles.length;
     circles = circles.filter(c => !c._eliminate && c.hp > 0);
+    const after = circles.length;
+
+    // If we just reached exactly 1 and haven't reported yet, announce winner
+    if (!winnerSent && before > 1 && after === 1) {
+      winnerSent = true;
+      const last = circles[0];
+      if (winnerCb && last) winnerCb(last.team);
+    }
   }
 
   // -------- items ----------
@@ -377,9 +418,11 @@ const ArenaSim = (() => {
   function itemRadiusForKind(kind) {
     return (kind === "bulborb" ? ITEM_RAD_BULBORB_FACTOR : ITEM_RAD_FLOWER_FACTOR) * baseRForItems;
   }
+
   function randomItemKind() {
     return Math.random() < PROB_BULBORB ? "bulborb" : "flower";
   }
+
   function spawnRandomItem() {
     const W = canvas.width, H = canvas.height;
     const kind = randomItemKind();
@@ -388,6 +431,7 @@ const ArenaSim = (() => {
     const y = r + Math.random() * (H - 2 * r);
     items.push({ kind, x, y, r, born: performance.now() });
   }
+
   function updateItems(stepMs) {
     // spawn
     spawnAcc += stepMs;
@@ -395,32 +439,29 @@ const ArenaSim = (() => {
       spawnRandomItem();
       spawnAcc -= ITEM_SPAWN_MS;
     }
-    // lifetime + pickup
-    const now = performance.now();
+
+    // pickups only (no age-based removal)
     let i = 0;
     while (i < items.length) {
       const it = items[i];
-      if (now - it.born > ITEM_LIFETIME) { items.splice(i, 1); continue; }
       let consumed = false;
-      // NOTE: iterate over a copy to avoid issues if elimination modifies 'circles'
+
+      // iterate over a copy in case circles array changes (eliminations)
       for (const c of [...circles]) {
         const dx = c.x - it.x, dy = c.y - it.y;
         if (Math.hypot(dx, dy) <= c.r + it.r) {
-          // 1) capture direction before HP change
+          // capture direction before HP change
           const speedNow = Math.hypot(c.vx, c.vy) || 1;
-          const ux = c.vx / speedNow;
-          const uy = c.vy / speedNow;
+          const ux = c.vx / speedNow, uy = c.vy / speedNow;
 
-          // 2) apply hp effect (no knockback)
+          // apply hp change (no knockback)
           const delta = it.kind === "flower" ? +1 : -1;
           updateHP(c.id, c.hp + delta);
 
-          // 3) if not eliminated, restore direction with new speed
+          // if still alive, restore direction & nudge forward
           if (!c._eliminate && c.hp > 0) {
             c.dirx = ux; c.diry = uy;
-            c.vx = ux * c.speed;
-            c.vy = uy * c.speed;
-            // 4) nudge forward to avoid immediate retrigger
+            c.vx = ux * c.speed; c.vy = uy * c.speed;
             const nudge = Math.max(1, it.r * 0.15);
             c.x += ux * nudge; c.y += uy * nudge;
           }
@@ -429,10 +470,15 @@ const ArenaSim = (() => {
           break;
         }
       }
-      if (consumed) items.splice(i, 1); else i++;
+
+      if (consumed) {
+        items.splice(i, 1); // item is consumed on pickup
+      } else {
+        i++;
+      }
     }
 
-    // finally, remove eliminated circles
+    // prune eliminated circles (unchanged)
     pruneEliminated();
   }
 
@@ -512,16 +558,69 @@ const ArenaSim = (() => {
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // draw items first (under the circles)
+
+    // draw items first (under the Pikmin)
     drawItems();
-    // then circles
+
+    function drawImageCover(img, dx, dy, dSize) {
+      const dw = dSize, dh = dSize;
+      const iw = img.naturalWidth || img.width;
+      const ih = img.naturalHeight || img.height;
+      if (!iw || !ih) return;
+
+      const sRatio = iw / ih;
+      const dRatio = dw / dh;
+
+      let sw, sh, sx, sy;
+      if (sRatio > dRatio) {
+        sh = ih;
+        sw = ih * dRatio;
+        sx = (iw - sw) / 2;
+        sy = 0;
+      } else {
+        sw = iw;
+        sh = iw / dRatio;
+        sx = 0;
+        sy = (ih - sh) / 2;
+      }
+      ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+
+    ctx.imageSmoothingEnabled = true;
+
     for (const c of circles) {
+      const img = IMG_TEAM[c.team];
+      const size = c.r * 2;
+      const x = c.x - c.r;
+      const y = c.y - c.r;
+
+      // 1) tinted chip background (team *-100)
       ctx.beginPath();
       ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-      ctx.fillStyle = TEAM_PALETTE[c.team] || "#bbb";
+      ctx.fillStyle = TEAM_BG[c.team] || "#ffffff";
       ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#0b0b0f";
+
+      // 2) clip to circle and draw sprite cover-fit
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.clip();
+        drawImageCover(img, x, y, size);
+        ctx.restore();
+      } else {
+        // fallback while image loads
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = TEAM_PALETTE[c.team] || "#bbb";
+        ctx.fill();
+      }
+
+      // 3) black border
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = "#000000";
       ctx.stroke();
     }
   }
@@ -557,6 +656,7 @@ const ArenaSim = (() => {
     last = performance.now();
     acc = 0;
     rafId = requestAnimationFrame(loop);
+    winnerSent = false;
   }
 
   function stop() {
@@ -568,13 +668,67 @@ const ArenaSim = (() => {
     items.length = 0;
     spawnAcc = 0;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    winnerSent = false;
   }
 
   function snapshot() { return circles.map(c => ({ team: c.team, hp: c.hp })); }
   function onTick(cb) { tickCb = cb; }
 
-  return { start, stop, isActive: () => active, updateHP, snapshot, onTick };
+  return { start, stop, isActive: () => active, updateHP, snapshot, onTick, onWinner };
 })();
 
 // Register overlay updater *after* ArenaSim exists
 ArenaSim.onTick(renderHpOverlay);
+
+let _winnerHideId = null;
+
+// winner display
+function showWinnerModal(team) {
+  // create or reuse
+  let el = document.getElementById("winnerModal");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "winnerModal";
+    el.className = "fixed inset-0 z-[9999] flex items-center justify-center";
+    el.innerHTML = `
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="relative z-10 rounded-xl border-2 border-teal-300 bg-card px-6 py-5 shadow-card">
+        <div class="text-center text-xl font-semibold">
+          <span id="winnerText"></span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(el);
+  }
+
+  const txt = el.querySelector("#winnerText");
+  txt.textContent = `${team.toUpperCase()} won!`;
+  el.style.display = "flex";
+
+  // clear any previous hide timer, then set a fresh 3s timer
+  if (_winnerHideId) clearTimeout(_winnerHideId);
+  _winnerHideId = setTimeout(() => {
+    el.style.display = "none";
+    _winnerHideId = null;
+  }, 3000);
+}
+
+async function notifyBackendWinner(team) {
+  // get current round to send
+  const st = await loadState();
+  const round = st?.roundNumber ?? 0;
+  try {
+    await fetch(`${BACKEND_URL}/winner`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ round, team })
+    });
+  } catch { }
+}
+
+ArenaSim.onWinner(async (team) => {
+  showWinnerModal(team);
+  await notifyBackendWinner(team);
+  // stop locally so the arena clears immediately; backend will switch to BREAK
+  ArenaSim.stop();
+});

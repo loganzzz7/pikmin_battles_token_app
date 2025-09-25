@@ -13,8 +13,6 @@ BREAK_SECONDS = int(os.getenv("BREAK_SECONDS", "30"))
 PRE_SNAPSHOT_LEEWAY = 5
 RUN_SECONDS = int(os.getenv("RUN_SECONDS", "0"))
 
-TEAMS = ["red", "purple", "blue", "yellow"]
-
 def parse_iso(s: str) -> datetime:
     """Parse ISO8601 ('...Z' or with offset) to aware datetime (UTC)."""
     if not s:
@@ -58,9 +56,40 @@ app = FastAPI(title="Pikmin Battles API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in ALLOWED_ORIGINS],
-    allow_methods=["GET", "OPTIONS"],  # allow preflight just in case
+    allow_methods=["GET", "POST", "OPTIONS"],  # allow preflight just in case
     allow_headers=["*"],
 )
+
+TEAMS = ["red", "purple", "blue", "yellow"]
+
+class WinnerPayload(BaseModel):
+    round: int
+    team: str
+
+@app.post("/winner")
+def post_winner(p: WinnerPayload):
+    data = load_state()
+    state = data["state"]
+    history = data["history"]
+
+    # Only accept during RUNNING, valid team, and matching round
+    if state.get("phase") != "RUNNING":
+        return {"ok": False, "reason": "not running"}
+    if p.team not in TEAMS:
+        return {"ok": False, "reason": "bad team"}
+    if int(state.get("roundNumber", 0)) != int(p.round):
+        return {"ok": False, "reason": "round mismatch"}
+
+    # End the round; round_loop will flip to BREAK next tick
+    state["winner"] = p.team
+    state["phase"] = "ENDED"
+    history.insert(0, {
+        "round": int(state.get("roundNumber", 0)),
+        "team": p.team,
+        "prizeLamports": int(state.get("prizePoolLamports", 0)),
+    })
+    save_state(data)
+    return {"ok": True}
 
 # ---------- Schemas ----------
 class Holder(BaseModel):
@@ -83,7 +112,7 @@ class RoundState(BaseModel):
     phase: str  # "BREAK" | "PRE_SNAPSHOT" | "RUNNING" | "ENDED"
     breakEndsAt: Optional[str] = None  # ISO string
     prizePoolLamports: int
-    survivorCount: Optional[int] = None
+    # survivorCount: Optional[int] = None
 
 # ---------- State helpers ----------
 def now_utc() -> datetime:
@@ -102,7 +131,7 @@ def load_state() -> dict:
             "phase": "BREAK",
             "breakEndsAt": (now_utc() + timedelta(seconds=30)).isoformat(),
             "prizePoolLamports": 0,
-            "survivorCount": None,
+            # "survivorCount": None,
         },
         "holders": {
             "total": 0,
@@ -187,7 +216,7 @@ async def round_loop():
                     "lastUpdatedISO": now_utc().isoformat(),
                     "items": items,
                 }
-                state["survivorCount"] = len(existing)
+                # state["survivorCount"] = len(existing)
                 save_state(data)
 
         # ---- PRE_SNAPSHOT ----
@@ -206,24 +235,25 @@ async def round_loop():
 
         # ---- RUNNING ----
         elif phase == "RUNNING":
-            # If you want a demo timeout, set RUN_SECONDS>0 via env.
-            if running_started_at is None:
-                running_started_at = now_utc()
+            pass
+            # # If you want a demo timeout, set RUN_SECONDS>0 via env.
+            # if running_started_at is None:
+            #     running_started_at = now_utc()
 
-            if RUN_SECONDS > 0:
-                elapsed = (now_utc() - running_started_at).total_seconds()
-                if elapsed >= RUN_SECONDS:
-                    rnd = int(state.get("roundNumber", 1))
-                    winner = TEAMS[(rnd - 1) % len(TEAMS)]
-                    state["winner"] = winner
-                    state["phase"] = "ENDED"
-                    history.insert(0, {
-                        "round": rnd,
-                        "team": winner,
-                        "prizeLamports": int(state.get("prizePoolLamports", 0)),
-                    })
-                    running_started_at = None
-                    save_state(data)
+            # if RUN_SECONDS > 0:
+            #     elapsed = (now_utc() - running_started_at).total_seconds()
+            #     if elapsed >= RUN_SECONDS:
+            #         rnd = int(state.get("roundNumber", 1))
+            #         winner = TEAMS[(rnd - 1) % len(TEAMS)]
+            #         state["winner"] = winner
+            #         state["phase"] = "ENDED"
+            #         history.insert(0, {
+            #             "round": rnd,
+            #             "team": winner,
+            #             "prizeLamports": int(state.get("prizePoolLamports", 0)),
+            #         })
+            #         running_started_at = None
+            #         save_state(data)
 
         # ---- ENDED ----
         elif phase == "ENDED":

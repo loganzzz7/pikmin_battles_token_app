@@ -1,26 +1,32 @@
 {
   "state": {
-    "roundNumber": 81,
+    "roundNumber": 95,
     "phase": "RUNNING",
     "breakEndsAt": null,
     "prizePoolLamports": 250000000,
-    "survivorCount": 4
+    "survivorCount": 4,
+    "eliminatedTeams": [
+      "purple",
+      "yellow",
+      "blue",
+      "red"
+    ]
   },
   "holders": {
     "total": 4,
     "tokenAddress": "So11111111111111111111111111111111111111112",
-    "lastUpdatedISO": "2025-09-25T00:22:13.039895+00:00",
+    "lastUpdatedISO": "2025-09-25T03:37:45.649992+00:00",
     "items": [
       {
-        "address": "HldrA...",
+        "address": "HldrC...",
         "team": "red"
       },
       {
-        "address": "HldrC...",
+        "address": "HldrB...",
         "team": "purple"
       },
       {
-        "address": "HldrB...",
+        "address": "HldrA...",
         "team": "blue"
       },
       {
@@ -30,6 +36,76 @@
     ]
   },
   "history": [
+    {
+      "round": 94,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 93,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 92,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 91,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 90,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 89,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 88,
+      "team": "red",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 87,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 86,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 85,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 84,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 83,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 82,
+      "team": "yellow",
+      "prizeLamports": 250000000
+    },
+    {
+      "round": 81,
+      "team": "purple",
+      "prizeLamports": 250000000
+    },
     {
       "round": 80,
       "team": "yellow",
