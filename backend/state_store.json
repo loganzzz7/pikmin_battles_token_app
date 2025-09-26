@@ -1,6 +1,6 @@
 {
   "state": {
-    "roundNumber": 100,
+    "roundNumber": 101,
     "phase": "RUNNING",
     "breakEndsAt": null,
     "prizePoolLamports": 0,
@@ -9,206 +9,30 @@
   "holders": {
     "total": 80,
     "tokenAddress": "So11111111111111111111111111111111111111112",
-    "lastUpdatedISO": "2025-09-25T22:02:30.000466+00:00",
+    "lastUpdatedISO": "2025-09-26T21:25:42.285111+00:00",
     "items": [
       {
-        "address": "Hldr017...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr058...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr009...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr052...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr040...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr023...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr060...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr010...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr019...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr080...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr008...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr079...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr078...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr054...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr018...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr027...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr067...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr057...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr005...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr015...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr020...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr037...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr007...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr070...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr014...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr021...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr066...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr032...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr072...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr076...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr043...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr050...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr029...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr064...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr047...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr012...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr024...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr068...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr003...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr059...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr002...xyz",
-        "team": "red"
-      },
-      {
         "address": "Hldr001...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr025...xyz",
-        "team": "blue"
-      },
-      {
-        "address": "Hldr038...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr042...xyz",
         "team": "red"
       },
       {
-        "address": "Hldr073...xyz",
+        "address": "Hldr056...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr074...xyz",
+        "address": "Hldr011...xyz",
         "team": "blue"
-      },
-      {
-        "address": "Hldr041...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr077...xyz",
-        "team": "red"
       },
       {
         "address": "Hldr046...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr043...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr005...xyz",
         "team": "purple"
       },
       {
@@ -216,39 +40,103 @@
         "team": "blue"
       },
       {
-        "address": "Hldr069...xyz",
+        "address": "Hldr040...xyz",
         "team": "yellow"
       },
       {
-        "address": "Hldr061...xyz",
+        "address": "Hldr018...xyz",
         "team": "red"
       },
       {
-        "address": "Hldr039...xyz",
+        "address": "Hldr015...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr055...xyz",
+        "address": "Hldr010...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr048...xyz",
+        "address": "Hldr041...xyz",
         "team": "yellow"
       },
       {
-        "address": "Hldr030...xyz",
+        "address": "Hldr066...xyz",
         "team": "red"
+      },
+      {
+        "address": "Hldr027...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr034...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr047...xyz",
+        "team": "yellow"
       },
       {
         "address": "Hldr062...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr074...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr044...xyz",
+        "address": "Hldr065...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr011...xyz",
+        "address": "Hldr013...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr002...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr023...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr012...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr014...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr069...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr048...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr009...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr017...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr007...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr025...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr059...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr003...xyz",
         "team": "yellow"
       },
       {
@@ -256,51 +144,67 @@
         "team": "red"
       },
       {
-        "address": "Hldr004...xyz",
+        "address": "Hldr031...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr056...xyz",
+        "address": "Hldr076...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr075...xyz",
+        "address": "Hldr068...xyz",
         "team": "yellow"
       },
       {
-        "address": "Hldr031...xyz",
+        "address": "Hldr032...xyz",
         "team": "red"
       },
       {
-        "address": "Hldr045...xyz",
+        "address": "Hldr042...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr051...xyz",
+        "address": "Hldr078...xyz",
         "team": "blue"
+      },
+      {
+        "address": "Hldr053...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr036...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr019...xyz",
+        "team": "purple"
       },
       {
         "address": "Hldr033...xyz",
-        "team": "yellow"
-      },
-      {
-        "address": "Hldr035...xyz",
-        "team": "red"
-      },
-      {
-        "address": "Hldr065...xyz",
-        "team": "purple"
-      },
-      {
-        "address": "Hldr022...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr034...xyz",
+        "address": "Hldr079...xyz",
         "team": "yellow"
       },
       {
-        "address": "Hldr049...xyz",
+        "address": "Hldr052...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr057...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr004...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr050...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr038...xyz",
         "team": "red"
       },
       {
@@ -308,32 +212,133 @@
         "team": "purple"
       },
       {
-        "address": "Hldr071...xyz",
+        "address": "Hldr075...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr036...xyz",
+        "address": "Hldr022...xyz",
         "team": "yellow"
       },
       {
-        "address": "Hldr016...xyz",
+        "address": "Hldr055...xyz",
         "team": "red"
       },
       {
-        "address": "Hldr063...xyz",
+        "address": "Hldr045...xyz",
         "team": "purple"
       },
       {
-        "address": "Hldr013...xyz",
+        "address": "Hldr070...xyz",
         "team": "blue"
       },
       {
-        "address": "Hldr053...xyz",
+        "address": "Hldr067...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr044...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr064...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr051...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr073...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr072...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr071...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr049...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr061...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr035...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr060...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr020...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr077...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr037...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr008...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr016...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr058...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr080...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr029...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr030...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr063...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr024...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr039...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr054...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr021...xyz",
         "team": "yellow"
       }
     ]
   },
   "history": [
+    {
+      "round": 100,
+      "team": "red",
+      "prizeLamports": 0
+    },
     {
       "round": 99,
       "team": "yellow",

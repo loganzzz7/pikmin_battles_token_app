@@ -2,6 +2,7 @@
 import os
 import json
 import requests
+from typing import Optional
 
 from solders.transaction import VersionedTransaction
 from solders.keypair import Keypair
@@ -18,10 +19,10 @@ def _env(name: str, default: str = "") -> str:
     return v.strip()
 
 def collect_creator_fee_local(
-    wallet_address: str | None = None,
-    wallet_private_key: str | None = None,
-    rpc_url: str | None = None,
-    priority_fee: float | None = None,
+    wallet_address: Optional[str] = None,
+    wallet_private_key: Optional[str] = None,
+    rpc_url: Optional[str] = None,
+    priority_fee: Optional[float] = None,
 ) -> str:
     """
     Build via PumpPortal local endpoint, sign with local key, and send to your RPC.

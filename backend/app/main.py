@@ -17,6 +17,7 @@ from .state_store import (
     set_holders,
     fetch_and_assign_teams,
 )
+from .services.distribute_prize import distribute_prize_from_state
 
 # ------------ Config ------------
 BREAK_SECONDS = int(os.getenv("BREAK_SECONDS", "30"))
@@ -25,7 +26,7 @@ TOKEN_MINT = os.getenv("TOKEN_MINT", "So1111111111111111111111111111111111111111
 
 ALLOWED_ORIGINS = os.getenv(
     "FRONTEND_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:3000"
+    "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8000,http://127.0.0.1:8000,file://"
 ).split(",")
 
 TEAMS = ["red", "purple", "blue", "yellow"]
@@ -154,6 +155,17 @@ async def round_loop():
 
         # ---- ENDED ----
         elif phase == "ENDED":
+            # Distribute prize to winning team
+            try:
+                if state.get("prizePoolLamports", 0) > 0:
+                    tx_signature = distribute_prize_from_state()
+                    print(f"Prize distributed: https://solscan.io/tx/{tx_signature}")
+                else:
+                    print("No prize to distribute")
+            except Exception as e:
+                print(f"Failed to distribute prize: {e}")
+                # Continue anyway to avoid blocking the round loop
+            
             # Back to BREAK with a fresh 30s timer
             set_break(state, BREAK_SECONDS)
             save_state(data)
