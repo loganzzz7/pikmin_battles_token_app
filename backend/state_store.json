@@ -1,0 +1,830 @@
+{
+  "state": {
+    "roundNumber": 100,
+    "phase": "RUNNING",
+    "breakEndsAt": null,
+    "prizePoolLamports": 0,
+    "winner": null
+  },
+  "holders": {
+    "total": 80,
+    "tokenAddress": "So11111111111111111111111111111111111111112",
+    "lastUpdatedISO": "2025-09-25T22:02:30.000466+00:00",
+    "items": [
+      {
+        "address": "Hldr017...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr058...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr009...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr052...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr040...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr023...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr060...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr010...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr019...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr080...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr008...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr079...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr078...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr054...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr018...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr027...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr067...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr057...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr005...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr015...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr020...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr037...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr007...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr070...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr014...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr021...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr066...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr032...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr072...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr076...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr043...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr050...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr029...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr064...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr047...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr012...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr024...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr068...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr003...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr059...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr002...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr001...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr025...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr038...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr042...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr073...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr074...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr041...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr077...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr046...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr028...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr069...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr061...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr039...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr055...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr048...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr030...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr062...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr044...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr011...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr026...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr004...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr056...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr075...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr031...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr045...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr051...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr033...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr035...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr065...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr022...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr034...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr049...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr006...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr071...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr036...xyz",
+        "team": "yellow"
+      },
+      {
+        "address": "Hldr016...xyz",
+        "team": "red"
+      },
+      {
+        "address": "Hldr063...xyz",
+        "team": "purple"
+      },
+      {
+        "address": "Hldr013...xyz",
+        "team": "blue"
+      },
+      {
+        "address": "Hldr053...xyz",
+        "team": "yellow"
+      }
+    ]
+  },
+  "history": [
+    {
+      "round": 99,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 98,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 97,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 96,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 95,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 94,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 93,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 92,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 91,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 90,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 89,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 88,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 87,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 86,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 85,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 84,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 83,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 82,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 81,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 80,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 79,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 78,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 77,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 76,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 75,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 74,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 73,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 72,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 71,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 70,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 69,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 68,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 67,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 66,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 65,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 64,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 63,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 62,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 61,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 60,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 59,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 58,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 57,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 56,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 55,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 54,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 53,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 52,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 51,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 50,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 49,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 48,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 47,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 46,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 45,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 44,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 43,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 42,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 41,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 40,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 39,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 38,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 37,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 36,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 35,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 34,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 33,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 32,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 31,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 30,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 29,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 28,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 27,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 26,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 25,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 24,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 23,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 22,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 21,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 20,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 19,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 18,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 17,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 16,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 15,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 14,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 13,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 12,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 11,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 10,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 9,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 8,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 7,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 6,
+      "team": "purple",
+      "prizeLamports": 0
+    },
+    {
+      "round": 5,
+      "team": "blue",
+      "prizeLamports": 0
+    },
+    {
+      "round": 4,
+      "team": "yellow",
+      "prizeLamports": 0
+    },
+    {
+      "round": 3,
+      "team": "red",
+      "prizeLamports": 0
+    },
+    {
+      "round": 2,
+      "team": "purple",
+      "prizeLamports": 0
+    }
+  ],
+  "pendingCreatorLamports": 0,
+  "treasuryLamports": 0
+}

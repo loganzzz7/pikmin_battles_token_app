@@ -57,7 +57,7 @@ def load_state() -> Dict:
             pass
 
     # default bootstrap state (round in BREAK for 30s)
-    return {
+    default = {
         "state": {
             "roundNumber": 1,
             "phase": "BREAK",
@@ -76,6 +76,19 @@ def load_state() -> Dict:
         "pendingCreatorLamports": 0,  # collected this break; you decide when to apply
         "treasuryLamports": 0,        # your 30% + remainders
     }
+
+    # Persist the initial bootstrap so subsequent reads return a consistent
+    # `breakEndsAt` timestamp instead of bootstrapping a fresh now+30s on every
+    # call (which made the frontend clock appear stuck at ~29s).
+    try:
+        save_state(default)
+    except Exception:
+        # If saving fails (permissions, read-only FS), we still return the
+        # in-memory default so server can operate; frontend may continue to
+        # see a changing clock in that environment.
+        pass
+
+    return default
 
 
 def save_state(data: Dict) -> None:

@@ -1,5 +1,5 @@
 // ========== CONFIG ==========
-const BACKEND_URL = window.BACKEND_URL || "http://127.0.0.1:8787";
+const BACKEND_URL = window.BACKEND_URL || "http://127.0.0.1:8000";
 const COIN_ADDRESS =
   window.COIN_ADDRESS || "So11111111111111111111111111111111111111112";
 
